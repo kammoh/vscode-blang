@@ -26,7 +26,7 @@
 	"activationEvents": [
 		"onLanguage:bsv"
 	],
-	"main": "./out/client/src/extension.js",
+	"main": "./out/src/extension.js",
 	"contributes": {
 		"languages": [
 			{
@@ -54,7 +54,7 @@
 		]
 	},
 	"scripts": {
-		"vscode:prepublish": "cd client && npm install && cd .. && npm run compile",
+		"vscode:prepublish": "cd client && npm install && cd .. && npm compile",
 		"compile": "tsc -b",
 		"watch": "tsc -b -w",
 		"lint": "eslint ./client/src --ext .ts,.tsx",
