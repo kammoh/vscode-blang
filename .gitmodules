@@ -1,0 +1,3 @@
+[submodule "server/antlr-rust"]
+	path = server/antlr-rust
+	url = https://github.com/rrevenantt/antlr4rust.git

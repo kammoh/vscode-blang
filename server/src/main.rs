@@ -1,7 +1,12 @@
+#![feature(try_blocks)]
+
 use serde_json::Value;
 use tower_lsp::jsonrpc::Result;
 use tower_lsp::lsp_types::*;
 use tower_lsp::{Client, LanguageServer, LspService, Server};
+
+mod g4;
+
 
 #[derive(Debug)]
 struct Backend {

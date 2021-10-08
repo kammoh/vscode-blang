@@ -58,7 +58,7 @@
 		"compile": "tsc -b",
 		"watch": "tsc -b -w",
 		"lint": "eslint ./client/src --ext .ts,.tsx",
-		"postinstall": "cd client && npm install && cd ../server && cargo build && cd .."
+		"postinstall": "cd client && npm install && cd ../server && cargo +nightly build && cd .."
 	},
 	"devDependencies": {
 		"@types/mocha": "^5.2.7",
