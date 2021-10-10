@@ -1,5 +1,6 @@
 [package]
-name = "server"
+name = "bls"
+description = "B-Lang Language Server"
 version = "0.1.0"
 edition = "2018"
 
@@ -13,6 +14,7 @@ env_logger = "0.9.0"
 tower-lsp-macros = "0.4.1"
 nom = "7.0.0"
 antlr-rust = {path = "antlr-rust"}
+log = "0.4.14"
 
 
 [features]

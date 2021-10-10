@@ -9,18 +9,27 @@
 			"runtimeExecutable": "${execPath}",
 			"args": ["--extensionDevelopmentPath=${workspaceRoot}"],
 			"outFiles": ["${workspaceRoot}/client/out/**/*.js"],
-			"preLaunchTask": {
-				"type": "npm",
-				"script": "watch"
-			}
+			// "preLaunchTask": {
+			// 	"type": "npm",
+			// 	"script": "watch:client"
+			// }
 		},
 		{
-			"type": "node",
+            "name": "Debug ANTLR4 grammar",
+            "type": "antlr-debug",
+            "request": "launch",
+            "input": "server/tests/bsv_files/SIPO.bsv",
+            "grammar": "server/BSV.g4",
+            // "actionFile": "tests/xxx.js",
+            "startRule": "top",
+            "printParseTree": true,
+            "visualParseTree": true
+        },
+		{
+			"type": "lldb",
 			"request": "attach",
 			"name": "Attach to Server",
-			"port": 6009,
-			"restart": true,
-			"outFiles": ["${workspaceRoot}/server/out/**/*.js"]
+			"program": "${workspaceFolder}/server/target/debug/bls"
 		},
 		{
 			"name": "Language Server E2E Test",
@@ -32,8 +41,10 @@
 				"--extensionTestsPath=${workspaceRoot}/client/out/test",
 				"${workspaceRoot}/client/testFixture"
 			],
+			"stopOnEntry": false,
+			"sourceMaps": true,
 			"outFiles": ["${workspaceRoot}/client/out/test/**/*.js"]
-		}
+		},
 	],
 	"compounds": [
 		{

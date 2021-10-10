@@ -26,7 +26,7 @@
 	"activationEvents": [
 		"onLanguage:bsv"
 	],
-	"main": "./out/src/extension.js",
+	"main": "./client/out/extension",
 	"contributes": {
 		"languages": [
 			{
@@ -54,11 +54,14 @@
 		]
 	},
 	"scripts": {
-		"vscode:prepublish": "cd client && npm install && cd .. && npm compile",
-		"compile": "tsc -b",
-		"watch": "tsc -b -w",
+		"vscode:prepublish": "cd client && npm run update-vscode && cd .. && npm run compile",
+		"compile:client": "tsc -p ./client/tsconfig.json",
+		"compile:server": "cd ./server && cargo build && cd ..",
+		"watch:client": "tsc -w -p ./client/tsconfig.json",
+		"watch:server": "cd ./server && cargo watch -x build && cd ..",
+		"compile": "npm run compile:client && npm run compile:server",
 		"lint": "eslint ./client/src --ext .ts,.tsx",
-		"postinstall": "cd client && npm install && cd ../server && cargo +nightly build && cd .."
+		"postinstall": "cd client && npm install && cd .. && npm run compile:server"
 	},
 	"devDependencies": {
 		"@types/mocha": "^5.2.7",

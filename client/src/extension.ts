@@ -9,8 +9,7 @@ import { ExtensionContext } from 'vscode';
 import {
 	LanguageClient,
 	LanguageClientOptions,
-	ServerOptions,
-	TransportKind
+	ServerOptions
 } from 'vscode-languageclient';
 
 let client: LanguageClient;
@@ -19,10 +18,9 @@ export function activate(context: ExtensionContext) {
 	const cargoBuildType = 'debug';
 	// The server is implemented in node
 	const serverCommand = context.asAbsolutePath(
-		path.join('server', 'target', cargoBuildType, 'server')
+		path.join('server', 'target', cargoBuildType, 'bls')
 	);
 
-	const debugOptions = { env: { RUST_LOG: "trace" } };
 
 	// If the extension is launched in debug mode then the debug server options are used
 	// Otherwise the run options are used
@@ -30,8 +28,11 @@ export function activate(context: ExtensionContext) {
 		run: { command: serverCommand },
 		debug: {
 			command: serverCommand,
-			args: [],
-			options: debugOptions
+			// args: [],
+			options: {
+				cwd: context.asAbsolutePath('server'),
+				env: { RUST_LOG: "debug" },
+			}
 		}
 	};
 

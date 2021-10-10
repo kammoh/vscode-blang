@@ -7,7 +7,6 @@ use tower_lsp::{Client, LanguageServer, LspService, Server};
 
 mod g4;
 
-
 #[derive(Debug)]
 struct Backend {
     client: Client,
@@ -86,19 +85,29 @@ impl LanguageServer for Backend {
         Ok(None)
     }
 
-    async fn did_open(&self, _: DidOpenTextDocumentParams) {
+    async fn did_open(&self, params: DidOpenTextDocumentParams) {
+        let text_document = params.text_document;
         self.client
-            .log_message(MessageType::Info, "file opened!")
+            .log_message(
+                MessageType::Info,
+                format!(
+                    "file {} id:{} opened!",
+                    text_document.uri, text_document.language_id
+                ),
+            )
             .await;
     }
 
-    async fn did_change(&self, _: DidChangeTextDocumentParams) {
+    async fn did_change(&self, params: DidChangeTextDocumentParams) {
+        let text_document = params.text_document;
+        let content_changes = params.content_changes;
         self.client
             .log_message(MessageType::Info, "file changed!")
             .await;
     }
 
-    async fn did_save(&self, _: DidSaveTextDocumentParams) {
+    async fn did_save(&self, params: DidSaveTextDocumentParams) {
+        let text_document = params.text_document;
         self.client
             .log_message(MessageType::Info, "file saved!")
             .await;
@@ -110,7 +119,7 @@ impl LanguageServer for Backend {
             .await;
     }
 
-    async fn completion(&self, _: CompletionParams) -> Result<Option<CompletionResponse>> {
+    async fn completion(&self, params: CompletionParams) -> Result<Option<CompletionResponse>> {
         Ok(Some(CompletionResponse::Array(vec![
             CompletionItem::new_simple("Hello".to_string(), "Some detail".to_string()),
             CompletionItem::new_simple("Bye".to_string(), "More detail".to_string()),
@@ -124,7 +133,7 @@ async fn main() {
 
     let stdin = tokio::io::stdin();
     let stdout = tokio::io::stdout();
-    
+
     eprintln!("started server!");
 
     let (service, messages) = LspService::new(|client| Backend { client });
